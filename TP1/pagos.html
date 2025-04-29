@@ -2,15 +2,39 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Pago con Mercado Pago</title>
+  <title>Redirigiendo al pago...</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding-top: 100px;
+      color: #555;
+    }
+  </style>
 </head>
 <body>
-  <h1>Realice su pago</h1>
 
-  <!-- Botón de Mercado Pago -->
-  <script src="https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js"
-    data-preference-id="59441742-92dae42c-0e10-49f7-9cf1-89216f1fde9d"
-    data-source="button">
+  <p>Estamos redirigiéndote al sistema de pago seguro...</p>
+
+  <!-- Botón de MercadoPago oculto -->
+  <div id="mp-button" style="display: none;">
+    <script
+      src="https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js"
+      data-preference-id="59441742-92dae42c-0e10-49f7-9cf1-89216f1fde9d"
+      data-source="button">
+    </script>
+  </div>
+
+  <script>
+    // Espera a que el script cargue y luego simula el clic
+    setTimeout(() => {
+      const form = document.querySelector("form[action*='mercadopago']");
+      if (form) {
+        form.submit();
+      } else {
+        document.body.innerHTML = "<p>Error al cargar el pago. Por favor, recargá la página o contactanos.</p>";
+      }
+    }, 1500); // Espera 1.5 segundos para asegurar que cargue el botón
   </script>
 
 </body>
