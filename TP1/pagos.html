@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>Redirigiendo al pago...</title>
+  <!-- Redirección automática al checkout de MercadoPago -->
+  <meta http-equiv="refresh" content="0; URL='https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=59441742-92dae42c-0e10-49f7-9cf1-89216f1fde9d'" />
   <style>
     body {
       font-family: sans-serif;
@@ -13,30 +15,6 @@
   </style>
 </head>
 <body>
-
-  <p>Estamos redirigiéndote al sistema de pago seguro...</p>
-
-  <!-- Botón de MercadoPago oculto -->
-  <div id="mp-button" style="display: none;">
-    <script
-      src="https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js"
-      data-preference-id="59441742-92dae42c-0e10-49f7-9cf1-89216f1fde9d"
-      data-source="button">
-    </script>
-  </div>
-
-  <script>
-    const intentarRedireccion = () => {
-      const boton = document.querySelector("form[action*='mercadopago']");
-      if (boton) {
-        boton.submit();
-      } else {
-        setTimeout(intentarRedireccion, 500);
-      }
-    };
-
-    setTimeout(intentarRedireccion, 1000);
-  </script>
-
+  <p>Redirigiéndote a MercadoPago...</p>
 </body>
 </html>
