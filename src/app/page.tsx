@@ -1,0 +1,26 @@
+'use client';
+
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+
+export default function HomePage() {
+  const router = useRouter();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    
+    if (token) {
+      // Si hay token, verificar si es válido y redirigir al dashboard
+      router.push('/dashboard');
+    } else {
+      // Si no hay token, redirigir al login
+      router.push('/login');
+    }
+  }, [router]);
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+    </div>
+  );
+}

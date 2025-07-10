@@ -1,0 +1,67 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      Role     @default(USER)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  balanceDataUploads BalanceData[]
+}
+
+model BalanceData {
+  id          String   @id @default(cuid())
+  fileName    String
+  uploadDate  DateTime @default(now())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  
+  // Datos financieros extraídos del Excel
+  entries     BalanceEntry[]
+}
+
+model BalanceEntry {
+  id            String      @id @default(cuid())
+  balanceDataId String
+  balanceData   BalanceData @relation(fields: [balanceDataId], references: [id])
+  
+  // Campos comunes de saldos y liquidez
+  cuenta        String      // Cuenta contable
+  descripcion   String      // Descripción de la cuenta
+  saldoInicial  Float       // Saldo inicial
+  saldoFinal    Float       // Saldo final
+  entradas      Float       // Entradas/Débitos
+  salidas       Float       // Salidas/Créditos
+  fecha         DateTime    // Fecha del registro
+  tipo          EntryType   // SALDO o LIQUIDEZ
+  categoria     String?     // Categoría opcional (Activo, Pasivo, etc.)
+  moneda        String      @default("ARS") // Moneda
+  
+  createdAt     DateTime    @default(now())
+}
+
+enum Role {
+  ADMIN
+  MANAGER
+  USER
+  VIEWER
+}
+
+enum EntryType {
+  SALDO
+  LIQUIDEZ
+}
